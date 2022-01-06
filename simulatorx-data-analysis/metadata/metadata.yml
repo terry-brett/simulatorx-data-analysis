@@ -1,0 +1,30 @@
+metadata_version: 1
+name: Analysing the impact of age, gender and ethnicity on the spread of viruses
+description: "Data driven approach to analyse the impact of biological cues, namely
+  age, gender and ethnicity on the infection and recovery rates, with the use of compartmental
+  modelling. We use COVID-19 as use case, due to the large amount of data currently
+  available.\n\nUsing NetworkX we create a graph which reflects population, based
+  on demographics from the data available from UK census, by setting attributes to
+  each node, and then we run SIS (Susceptible-Infected-Susceptible) simulations on
+  it. We then compare our results with the official figures provided by the UK government
+  on the infections in the given population.\n\nWe compute infection rate based on
+  currently available COVID-19 data, and infect each nodes based on its individual
+  attributes. \n\nIn addition to that we use VGG16 model to develop facial recognition
+  system. This extracts age, gender and ethnicity from images, and creates a graph
+  with those attributes. Similarly we use the generated graph to then perform an SIS
+  simulation and again we compare our results with the official figures."
+tags:
+- data science
+- facial recognition
+- compartmental modeling
+- simulations
+authors:
+- name: Yash Soni
+  affiliations:
+  - name: University of Greenwich
+- name: Terry Brett
+  affiliations:
+  - name: University of Greenwich
+corresponding_contributor:
+  name: Yash Soni
+  email: yash.soni5999@gmail.com
