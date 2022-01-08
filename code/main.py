@@ -1,7 +1,7 @@
 from simulations import *
-import glob
 import os
 from data_download import *
+from facial_recognition_model import *
 
 '''
     Run simulations for given populations, by adding age, gender and ethnicity as attributes and compare with GOV.UK data
@@ -32,7 +32,4 @@ not_found = list(set(model_files) - set(found_files))
 for file in not_found:
     download(file, path)
 
-list_of_images = glob.glob("../data/facial_images/*")
-
-for image in list_of_images:
-    make_prediction(image)
+run_VGG16_model()
