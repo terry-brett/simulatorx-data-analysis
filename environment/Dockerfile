@@ -4,4 +4,10 @@ FROM registry.codeocean.com/codeocean/miniconda3:4.9.2-python3.8-ubuntu20.04
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN pip3 install -U --no-cache-dir \
-    scipy==1.7.1
+    keras==2.7.0 \
+    matplotlib==3.5.1 \
+    networkx==2.6.3 \
+    numpy==1.22.0 \
+    pandas==1.3.5 \
+    scipy==1.7.3 \
+    tensorflow==2.7.0
