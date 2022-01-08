@@ -1,5 +1,8 @@
 import random
 import pandas as pd
+import cv2
+from keras.models import load_model
+import numpy as np
 
 def read_file(filename):
     data = {}
@@ -104,7 +107,7 @@ def infect(active_nodes, G, dataframe):
         if len(neighbors) > 0:
             for neighbor in neighbors:
                 if G.nodes[n]['status'] == 'S':
-                    if random.uniform(0,1) < (infection_rate(n, neighbor, G, dataframe) - 0.08):
+                    if random.uniform(0,1) < (infection_rate(n, neighbor, G, dataframe) - 0.076):
                         G.nodes[n]['status'] = 'I'
 
 def recover(active_nodes, G):
@@ -144,3 +147,36 @@ def count_attribute(G, attribute=None, infected=False, ethinicty=None, gender=No
             age_boundry = age_bins[4:]
 
     df['binned'] = pd.cut(df['age'], age_bins)
+
+def make_prediction(image_path):
+    img_arr = []
+    path_list = []
+
+    if image_path.endswith(".jpg") or image_path.endswith(".jpeg") or image_path.endswith(".JPG"):
+        image = cv2.imread(image_path)
+        image = cv2.resize(image, (96, 96))
+        img_arr.append(image)
+        path_list.append(image_path)
+
+    img_arr = np.asarray(img_arr)
+    img_arr = img_arr / 255.0
+
+    eth_model = load_model('../data/facial_features/eth-model.h5')
+    gen_model = load_model('../data/facial_features/gen-model.h5')
+    age_model = load_model('../data/facial_features/age-model.h5')
+
+    eth_pred = eth_model.predict(img_arr)
+    gen_pred = gen_model.predict(img_arr)
+    age_pred = age_model.predict(img_arr)
+
+    eth_list = np.argmax(eth_pred, axis=1)
+    gen_list = np.argmax(gen_pred, axis=1)
+    age_list = np.argmax(age_pred, axis=1)
+
+    data = {
+        'eth': int(eth_list[0]),
+        'gen': int(gen_list[0]),
+        'age': int(age_list[0])
+    }
+
+    print (data)

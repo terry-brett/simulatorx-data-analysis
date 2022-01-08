@@ -45,12 +45,14 @@ def run_simulation(data, area_name):
     mn_dict = {n : {'ethnicity': 2} for n in nodes_parts[2]} # 2 - mixed_population
     an_dict = {n : {'ethnicity': 3} for n in nodes_parts[3]} # 3 - asian_population
 
-    male_n, female_n = partition(nodes_list, 2)
+    gender_partitions = [male_population, female_population]
+    gender_nodes_parts = np.split(nodes_list, np.cumsum(gender_partitions))
 
-    male_dict = {n : {'gender': 0} for n in male_n} # 0 - male_population
-    female_dict = {n : {'gender': 1} for n in female_n} # 1 - female_population
+    male_dict = {n : {'gender': 0} for n in gender_nodes_parts[0]} # 0 - male_population
+    female_dict = {n : {'gender': 1} for n in gender_nodes_parts[1]} # 1 - female_population
 
-    youth_n, adult_n, senior_n = partition(nodes_list, 3)
+    age_partitions = [youth_population, adult_population, senior_population]
+    age_nodes_parts = np.split(nodes_list, np.cumsum(age_partitions))
 
     '''
         Generate age for the population such that age:
@@ -59,9 +61,9 @@ def run_simulation(data, area_name):
         senior 55 < age < 110
     '''
 
-    youth_dict = {n : {'age': random.randint(1,14)} for n in youth_n}
-    adult_dict = {n : {'age': random.randint(15,54)} for n in adult_n}
-    senior_dict = {n : {'age': random.randint(55,110)} for n in senior_n}
+    youth_dict = {n : {'age': random.randint(1,14)} for n in age_nodes_parts[0]}
+    adult_dict = {n : {'age': random.randint(15,54)} for n in age_nodes_parts[1]}
+    senior_dict = {n : {'age': random.randint(55,110)} for n in age_nodes_parts[2]}
 
     # set generated attributes
     nx.set_node_attributes(G, wn_dict)
@@ -112,11 +114,13 @@ def run_simulation(data, area_name):
     dff = dff.iloc[::-1]
     dff['SIS'] = inf
 
+    plt.clf() # need to clear the plot otherwise the plot gets overriden
     plt.plot(dff)
     plt.title('SIS v/s NHS for ' + area_name.capitalize(), fontsize=15)
     plt.xlabel('Days')
     plt.ylabel('Cases')
     plt.legend(dff.columns)
-    plt.savefig('/results/test.png')
+    plt.savefig('../results/' + area_name + '_results.png') # save the results to the directory
+    #plt.show()
 
     return ks_2samp(dff['NHS'],dff['SIS'])
