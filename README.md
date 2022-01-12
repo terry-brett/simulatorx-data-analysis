@@ -6,4 +6,4 @@ Using NetworkX we create a graph which reflects population, based on demographic
 
 We compute infection rate based on currently available COVID-19 data, and infect each nodes based on its individual attributes. 
 
-In addition to that we use VGG16 model to develop facial recognition system. This extracts age, gender and ethnicity from images, and creates a graph with those attributes. Similarly we use the generated graph to then perform an SIS simulation and again we compare our results with the official figures.
+In addition to that we test VGG16 model to develop facial recognition system. This extracts age, gender and ethnicity from images, showing the potential for an infection tracking system with the use of images. Such system could use real-time image feed such as CCTV to monitor the population network and probability of the spread of the virus.
